@@ -2,15 +2,21 @@ import random
 
 
 class Level():
-    def __init__(self):
+    def __init__(self, size_min=20, size_max=50):
+        if size_min > size_max:
+            raise ValueError("Minimum map size is larger than maximum size.")
         x0 = 0
         y0 = 0
         self.rooms = [(x0, y0)]
         self.walls = []
         # recursively set up map starting at center
-        self.makeNeighbors(x0, y0)
+        self.makeNeighbors(x0, y0, size_min, size_max)
+        while len(self.rooms) < size_min:
+            tmp = self.walls.pop()
+            self.rooms.append(tmp)
+            self.makeNeighbors(tmp[0], tmp[1], size_min, size_max)
 
-    def makeNeighbors(self, x, y):
+    def makeNeighbors(self, x, y, size_min, size_max):
         """
         Recursively create a map of rooms around given position and add them
         to the rooms/walls lists.
@@ -22,11 +28,11 @@ class Level():
             # this space now
             if self.isRoom(x, y) is None:
                 # draw random int of 0 (wall) or 1 (room)
-                if random.randint(0, 1) == 0:
+                if random.randint(0, 1) == 0 or len(self.rooms) >= size_max:
                     self.walls.append((x, y))
                 else:
                     self.rooms.append((x, y))
-                    self.makeNeighbors(x, y)
+                    self.makeNeighbors(x, y, size_min, size_max)
 
     def isRoom(self, x, y):
         """
