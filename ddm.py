@@ -3,10 +3,12 @@ import random
 
 class Level():
     def __init__(self):
-        self.rooms = []
+        x0 = 0
+        y0 = 0
+        self.rooms = [(x0, y0)]
         self.walls = []
         # recursively set up map starting at center
-        self.makeNeighbors(0, 0)
+        self.makeNeighbors(x0, y0)
 
     def makeNeighbors(self, x, y):
         """
