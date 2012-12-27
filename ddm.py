@@ -40,3 +40,29 @@ class Level():
         if (x, y) in self.walls:
             return False
         return None
+
+    def getBounds(self):
+        """
+        Returns minimum and maximum x and minimum and maximum y coordinates of
+        rooms: x_min, x_max, y_min, y_max
+        """
+        x_min = min([x for x, y in self.rooms])
+        x_max = max([x for x, y in self.rooms])
+        y_min = min([y for x, y in self.rooms])
+        y_max = max([y for x, y in self.rooms])
+        return x_min, x_max, y_min, y_max
+
+    def draw(self):
+        """
+        Print ASCII representation of map.
+        """
+        x_min, x_max, y_min, y_max = self.getBounds()
+        for y in range(y_max, y_min - 1, -1):
+            for x in range(x_min, x_max + 1):
+                state = self.isRoom(x, y)
+                if state is True:
+                    symbol = "o"
+                else:
+                    symbol = " "
+                print symbol,
+            print
