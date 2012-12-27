@@ -64,11 +64,12 @@ class Level():
         """
         x_min, x_max, y_min, y_max = self.getBounds()
         for y in range(y_max, y_min - 1, -1):
+            line = ""
             for x in range(x_min, x_max + 1):
                 state = self.isRoom(x, y)
                 if state is True:
-                    symbol = "o"
+                    symbol = "O"
                 else:
                     symbol = " "
-                print symbol,
-            print
+                line += symbol
+            print line
