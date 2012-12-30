@@ -10,13 +10,13 @@ class Level():
         self.rooms = [(x0, y0)]
         self.walls = []
         # recursively set up map starting at center
-        self.makeNeighbors(x0, y0, size_min, size_max)
+        self._make_neighbors(x0, y0, size_min, size_max)
         while len(self.rooms) < size_min:
             tmp = self.walls.pop()
             self.rooms.append(tmp)
-            self.makeNeighbors(tmp[0], tmp[1], size_min, size_max)
+            self._make_neighbors(tmp[0], tmp[1], size_min, size_max)
 
-    def makeNeighbors(self, x, y, size_min, size_max):
+    def _make_neighbors(self, x, y, size_min, size_max):
         """
         Recursively create a map of rooms around given position and add them
         to the rooms/walls lists.
@@ -32,7 +32,7 @@ class Level():
                     self.walls.append((x, y))
                 else:
                     self.rooms.append((x, y))
-                    self.makeNeighbors(x, y, size_min, size_max)
+                    self._make_neighbors(x, y, size_min, size_max)
 
     def isRoom(self, x, y):
         """
@@ -72,4 +72,4 @@ class Level():
                 else:
                     symbol = " "
                 line += symbol
-            print line
+            print(line)
