@@ -14,7 +14,7 @@ lev = Level(size_max=21)
 x_min, x_max, y_min, y_max = lev.getBounds()
 for x, y in lev.rooms:
     print(x, y)
-    DISPLAYSURF.blit(img, (img_width * x_min + x * img_width, img_height * y_min + y * img_height))
+    DISPLAYSURF.blit(img, (x * img_width - img_width * x_min, y * img_height - img_height * y_min))
 lev.draw()
 
 while True: # main game loop
