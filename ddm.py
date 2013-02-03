@@ -1,6 +1,9 @@
 import random
 
-
+class Player():
+    def __init__(self):
+        self.xy = (0, 0)
+    
 class Level():
     def __init__(self, size_min=20, size_max=50):
         if size_min > size_max:
