@@ -54,9 +54,7 @@ while True: # main game loop
                     y += 1
                 if lev.isRoom(x, y):
                     pl.xy = (x, y)
-                    lev.visited_rooms.add(pl.xy)
-                else:
-                    lev.visited_walls.add((x, y))
+                    lev.look_ahead(x, y)
             # player wants to exit
             elif event.key == K_RETURN:
                 if lev.isExit(x, y):

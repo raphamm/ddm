@@ -23,6 +23,14 @@ class Level():
         # Place random exit
         num = random.randint(0, len(self.rooms) - 1)
         self.exit = self.rooms[num]
+        self.look_ahead(x0, y0)
+        
+    def look_ahead(self, x, y):
+        for x, y in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
+            if self.isRoom(x, y):         
+                self.visited_rooms.add((x, y))
+            else:
+                self.visited_walls.add((x, y))
 
     def _make_neighbors(self, x, y, size_min, size_max):
         """
