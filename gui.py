@@ -4,17 +4,19 @@ import sys
 
 white = pygame.Color("white")
 black = pygame.Color("black")
+gray = pygame.Color("gray")
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('ddm')
 img_player = pygame.image.load('player.png')
 img_player.set_colorkey(white)
-img = pygame.image.load('room.jpg')
-img_width = img.get_width()
-img_height = img.get_height()
+img_room = pygame.image.load('room.jpg')
+img_width = img_room.get_width()
+img_height = img_room.get_height()
 img_exit = pygame.image.load('stairs_down.png')
 img_exit.set_colorkey(white)
+img_wall = pygame.image.load('wall.png')
 
 
 from ddm import Level, Player
@@ -24,12 +26,15 @@ x_min, x_max, y_min, y_max = lev.getBounds()
 lev.draw()
 
 while True: # main game loop
-    DISPLAYSURF.fill(black)
-    for x, y in lev.rooms:
-        DISPLAYSURF.blit(img, (x * img_width - img_width * x_min, y * img_height - img_height * y_min))
-    DISPLAYSURF.blit(img_exit, (lev.exit[0] * img_width - img_width * x_min, lev.exit[1] * img_height - img_height * y_min))
+    DISPLAYSURF.fill(gray)
+    for x, y in lev.visited_rooms:
+        DISPLAYSURF.blit(img_room, (x * img_width - img_width * x_min, y * img_height - img_height * y_min))
+    if lev.exit in lev.visited_rooms:
+        DISPLAYSURF.blit(img_exit, (lev.exit[0] * img_width - img_width * x_min, lev.exit[1] * img_height - img_height * y_min))
     DISPLAYSURF.blit(img_player, (pl.xy[0] * img_width - img_width * x_min, pl.xy[1] * img_height - img_height * y_min))
-    
+    for x, y in lev.visited_walls:
+        DISPLAYSURF.blit(img_wall, (x * img_width - img_width * x_min, y * img_height - img_height * y_min)) 
+        
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -49,6 +54,9 @@ while True: # main game loop
                     y += 1
                 if lev.isRoom(x, y):
                     pl.xy = (x, y)
+                    lev.visited_rooms.add(pl.xy)
+                else:
+                    lev.visited_walls.add((x, y))
             # player wants to exit
             elif event.key == K_RETURN:
                 if lev.isExit(x, y):

@@ -11,6 +11,8 @@ class Level():
         x0 = 0
         y0 = 0
         self.rooms = [(x0, y0)]
+        self.visited_rooms = set(self.rooms)
+        self.visited_walls = set()
         self.walls = []
         # recursively set up map starting at center
         self._make_neighbors(x0, y0, size_min, size_max)
