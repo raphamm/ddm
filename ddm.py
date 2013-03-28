@@ -18,6 +18,9 @@ class Level():
             tmp = self.walls.pop()
             self.rooms.append(tmp)
             self._make_neighbors(tmp[0], tmp[1], size_min, size_max)
+        # Place random exit
+        num = random.randint(0, len(self.rooms) - 1)
+        self.exit = self.rooms[num]
 
     def _make_neighbors(self, x, y, size_min, size_max):
         """
@@ -49,6 +52,16 @@ class Level():
         if (x, y) in self.walls:
             return False
         return None
+
+    def isExit(self, x, y):
+        """
+        Returns the state of the map at the specified position.
+        True: Exit
+        False: No Exit
+        """
+        if (x, y) == self.exit:
+            return True
+        return False
 
     def getBounds(self):
         """
