@@ -25,15 +25,25 @@ pl = Player()
 x_min, x_max, y_min, y_max = lev.getBounds()
 lev.draw()
 
+
+def coords_map2pixel(x, y):
+    """
+    converts map coordinates to pixel coordinates in window.
+    """
+    x = x * img_width
+    y = y * img_height
+    return (x, y)
+
+
 while True: # main game loop
     DISPLAYSURF.fill(gray)
     for x, y in lev.visited_rooms:
-        DISPLAYSURF.blit(img_room, (x * img_width - img_width * x_min, y * img_height - img_height * y_min))
+        DISPLAYSURF.blit(img_room, coords_map2pixel(x - pl.xy[0] + 5, y - pl.xy[1] + 5))
     if lev.exit in lev.visited_rooms:
-        DISPLAYSURF.blit(img_exit, (lev.exit[0] * img_width - img_width * x_min, lev.exit[1] * img_height - img_height * y_min))
-    DISPLAYSURF.blit(img_player, (pl.xy[0] * img_width - img_width * x_min, pl.xy[1] * img_height - img_height * y_min))
+        DISPLAYSURF.blit(img_exit, coords_map2pixel(lev.exit[0] - pl.xy[0] + 5, lev.exit[1] - pl.xy[1] + 5))
+    DISPLAYSURF.blit(img_player, coords_map2pixel(pl.xy[0] - pl.xy[0] + 5, pl.xy[1] - pl.xy[1] + 5))
     for x, y in lev.visited_walls:
-        DISPLAYSURF.blit(img_wall, (x * img_width - img_width * x_min, y * img_height - img_height * y_min)) 
+        DISPLAYSURF.blit(img_wall, coords_map2pixel(x - pl.xy[0] + 5, y - pl.xy[1] + 5)) 
         
     for event in pygame.event.get():
         if event.type == QUIT:
