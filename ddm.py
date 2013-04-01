@@ -26,7 +26,10 @@ class Level():
         self.look_ahead(x0, y0)
         
     def look_ahead(self, x, y):
-        for x, y in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
+        neighbors = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1),
+                     (x + 1, y + 1), (x + 1, y - 1), (x - 1, y + 1),
+                     (x - 1, y - 1)]
+        for x, y in neighbors:
             if self.isRoom(x, y):         
                 self.visited_rooms.add((x, y))
             else:
